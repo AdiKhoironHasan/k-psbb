@@ -20,7 +20,7 @@ func main() {
 	familyMembers := scanner.Text()
 
 	dataBus, err := familyBus(family, familyMembers)
-	if err != nil {
+	if err != "" {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -28,7 +28,7 @@ func main() {
 	fmt.Println("Minimum bus required is : ", dataBus)
 }
 
-func familyBus(family int, familyMembers string) (int, error) {
+func familyBus(family int, familyMembers string) (int, string) {
 	type busData struct {
 		Family   int
 		Capacity int
@@ -40,16 +40,13 @@ func familyBus(family int, familyMembers string) (int, error) {
 	familyMemberArrInt := []int{}
 
 	for _, val := range familyMemberArrString {
-		familyNum, err := strconv.Atoi(val)
-		if err != nil {
-			panic(err)
-		}
+		familyNum, _ := strconv.Atoi(val)
 
 		familyMemberArrInt = append(familyMemberArrInt, familyNum)
 	}
 
 	if family != len(familyMemberArrInt) {
-		return 0, fmt.Errorf("\ninput must be equal with count of family")
+		return 0, "input must be equal with count of family"
 	}
 
 	sort.Slice(familyMemberArrInt, func(i, j int) bool {
@@ -103,7 +100,7 @@ func familyBus(family int, familyMembers string) (int, error) {
 		}
 	}
 
-	return len(bus), nil
+	return len(bus), ""
 }
 
 func busIsEmpty(arr []int) bool {
